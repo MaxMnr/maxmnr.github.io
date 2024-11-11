@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/logos/MM_logo.png">
+    <link rel="stylesheet" href="style.css" />
+    <script src="projects/p5.min.js"></script>
+    <title>My Website</title>
+  </head>
+  <body>
+    <header>
+      <div id="logo-header">
+        Maxime MUNARI
+      </div>
+      <div id="buttons-header">
+        <button class="button-header">Home</button>
+        <button class="button-header">Projects</button>
+        <button class="button-header">About Me</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="main-section">
+        <div id="p5-main-animation"></div>
+        <script src="projects/main_animation_fourier/fourier.js"></script>
+        <script src="projects/main_animation_fourier/sketch.js"></script>
+      </section>
+    
+      <section id="projects-section">
+        <h1 class="section-title">Projects</h1>
+        <div class="projects-grid">
+          <button class="projects-item" onclick="location.href='projects/mandelbrot/mandelbrot.html'">
+            <h1>Mandelbrot Set</h1>
+          </button>
+          <button class="projects-item">
+            <h1>Ising Model</h1>
+          </button>
+          <button class="projects-item">
+            <h1>Fourier Series</h1>
+          </button>
+          <button class="projects-item">
+            <h1>Other Project</h1>
+          </button>
+        </div>
+      </section>
+
+      <section id="cv-section">
+        <h1 class="section-title">About me</h1>
+        <div id="cv-container">
+          <div id="cv-education">
+            <h1 class="cv-title">Education</h1>
+            <hr width="90%"/>
+            <div class="cv-education-item">
+              <h2 class="cv-subtitle">CY Cergy Paris University</h2>
+              <h4 class="cv-date">2024-2025</h4>
+              <h3 class="cv-subsubtitle">MSc in Numerical Physics 2nd Year</h3>
+            </div>
+            <div class="cv-education-item">
+              <h2 class="cv-subtitle">Strasbourg University</h2>
+              <h4 class="cv-date">2023-2024</h4>
+              <h3 class="cv-subsubtitle">MSc in Physics 1st Year</h3>
+              
+            </div>
+            <div class="cv-education-item">
+              <h2 class="cv-subtitle">Grenoble University</h2>
+              <h4 class="cv-date">2020-2023</h4>
+              <h3 class="cv-subsubtitle">BSc in Physics</h3>
+            </div>
+          </div>
+
+          <div id="cv-experience">
+            <h1 class="cv-title">Experience</h1>
+            <hr width="90%"/>
+            <div class="cv-experience-item">
+              <h2 class="cv-subtitle">Internship - IPHC Strasbourg</h2>
+              <p class="cv-date">Feb 2024 - May 2024</p>
+              <p class="cv-description">Building several Machine Learning architectures from scratch using PyTorch for <em>p-p</em> jet tagging at LHC.
+                I recovered results from literature using two datasets of quark and gluon jets generated with Pythia8.</p>
+              <p class="cv-keywords">Keywords: DNN, CNN, GNN, PointCloud, ParticleNet/NeXt<p>
+                <a class="download-button" href="downloadable/MUNARI_INTERN_IPHC.pdf" download="MUNARI_INTERN_IPHC.pdf">See Slides</a>
+            </div>  
+            <div class="cv-experience-item">
+              <h2 class="cv-subtitle">Internship - Marseille Astrophysics Laboratory (LAM)</h2>
+              <h3 class="cv-date">Jun 2023 - Jul 2023</h3>
+              <p class="cv-description">Analyzing the distribution of galaxies in a simulated catalog representing anticipated findings from the
+                Euclid telescope project. Evaluating the influence of inherent errors associated with measuring high red
+                shift objects.</p>
+              <p class="cv-keywords">Keywords: Redshift Measurement, Two-Points Correlation, High Performance Computing, Error Correction</p>
+              <a class="download-button" href="downloadable/MUNARI_INTERN_LAM.pdf" download="MUNARI_INTERN_LAM.pdf">See Poster</a>
+            </div>
+          </div>
+        </div>
+        <div class="cv-skills">
+          <h1 class="cv-title">Technical Skills</h1>
+          <div class="cv-skills-container">
+            <div id="cv-skills-item">
+              <h2 class="cv-subtitle">Programming Languages</h2>
+              <hr width="40%"/>
+              <p class="cv-description">Python, JavaScript, Matlab, Java, C++</p>
+            </div>
+            <div id="cv-skills-item">
+              <h2 class="cv-subtitle">Web Development</h2>
+              <hr width="40%"/>
+              <p class="cv-description">HTML5, CSS3, JS, React</p>
+            </div>
+            <div id="cv-skills-item">
+              <h2 class="cv-subtitle">Visual & Graphics Design</h2>
+              <hr width="40%"/>
+              <p class="cv-description">Adobe Illustrator, Final Cut Pro, Blender</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>Maxime MUNARI &copy;2024 </p>
+    </footer>
+  </body>
+</html>
