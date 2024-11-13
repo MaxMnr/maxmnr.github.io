@@ -23,22 +23,28 @@
 
     <main>
       <section id="animation-container">
-        <h1 class="section-title">Mandelbrot Set</h1>
+        <h1 class="section-title">Vicsek Model</h1>
         <hr width="80%"/>
-
         <p class="project-description">
-          This interactive tool allows you to explore the Mandelbrot set. 
-          You can zoom in by dragging a rectangle on the canvas with your mouse and adjust the number 
-          of iterations using the slider to refine the set's details. <br/><br/>
-          To navigate the zoom levels, you can:<br/>
-          &#8594; Use the back button to return to the previous zoom level<br/>
-          &#8594; Click the reset button to return to the initial zoom level<br/>
+          This simulation is inspired by the landmark paper by Vicsek et al. (1995), 
+          which introduced a simple model to study the collective behavior of birds. 
+          The model features particles moving on a 2D plane at a constant speed, 
+          aligning their direction with the average direction of their neighbors based on an Ising-like approach.
+          <br/><br/>
+          To observe the emergence of collective motion, you can adjust:<br/>
+          &#8594; The number of birds<br/>
+          &#8594; The size of the box<br/>
+          &#8594; The bias<br/>
         </p>
         <div id="animation-div">
           <div id="animation-canvas"></div>
           <div id="animation-widgets"></div>
         </div>
-        <script src="./mandelbrot.js"></script>
+        <script src="./scripts/complex.js"></script>
+        <script src="./scripts/particle.js"></script>
+        <script src="./scripts/simulation.js"></script>
+        <script src="./scripts/widgets.js"></script>
+        <script src="./scripts/vicsek.js"></script>
       </section>
     </main>
 

@@ -23,22 +23,21 @@
 
     <main>
       <section id="animation-container">
-        <h1 class="section-title">Mandelbrot Set</h1>
+        <h1 class="section-title">2D Ising Model</h1>
         <hr width="80%"/>
-
         <p class="project-description">
-          This interactive tool allows you to explore the Mandelbrot set. 
-          You can zoom in by dragging a rectangle on the canvas with your mouse and adjust the number 
-          of iterations using the slider to refine the set's details. <br/><br/>
-          To navigate the zoom levels, you can:<br/>
-          &#8594; Use the back button to return to the previous zoom level<br/>
-          &#8594; Click the reset button to return to the initial zoom level<br/>
+          This simulation models an idealized 2D magnetic material using the Ising model. You can adjust the lattice size and system temperature to observe the phase transition between a ferromagnetic and paramagnetic state. <br/><br/>
+          To control the simulation, you can:<br/>
+          &#8594; Adjust the lattice size<br/>
+          &#8594; Change the system temperature<br/>
+          &#8594; Use the start button to run the simulation<br/>
+          &#8594; Click the reset button to set a new random initial state<br/>
         </p>
         <div id="animation-div">
           <div id="animation-canvas"></div>
           <div id="animation-widgets"></div>
         </div>
-        <script src="./mandelbrot.js"></script>
+        <script src="./ising.js"></script>
       </section>
     </main>
 

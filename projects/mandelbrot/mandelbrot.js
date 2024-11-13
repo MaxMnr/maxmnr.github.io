@@ -6,33 +6,34 @@ let resetButton;
 let can;
 
 function setup() {
-  let canvasDiv = document.getElementById("animation-both");
-  let w = canvasDiv.offsetWidth;
-  let h = canvasDiv.offsetHeight;
-  can = createCanvas(int(w), int(w / 1.8));
-  can.parent("animation-canvas");
-  can.style("border-radius: 10pt");
+   let w = document.getElementById("animation-div").offsetWidth * 0.7;
+   let h = w * 0.5;
 
-  pixelDensity(1);
-  mandelbrot = new Mandelbrot();
-  mouse = new Mouse();
+   can = createCanvas(int(w), int(h));
+   can.parent("animation-canvas");
+   pixelDensity(1);
+   mandelbrot = new Mandelbrot();
+   mouse = new Mouse();
+   slider = new Slider(32, 256, 16, 16, "Maximum Iter:");
 
-  slider = new Slider(32, 256, 16, 16, "Maximum Iter:");
-
-  returnButton = createButton("Return").mousePressed(returnB);
-  resetButton = createButton("Reset").mousePressed(resetB);
+   returnButton = createButton("Return").mousePressed(returnB);
+   resetButton = createButton("Reset").mousePressed(resetB);
 
   returnButton.parent("animation-widgets");
   resetButton.parent("animation-widgets");
 
-  resetButton.addClass("button").style("width: 10%; height:50%");
-  returnButton.addClass("button").style("width: 10%; height:50%");
+  resetButton.addClass("button-widgets");
+  returnButton.addClass("button-widgets");
+
 }
 
 function draw() {
   background(0);
+  fill(255);
+  circle(0, 0, 200);
   slider.update();
   mandelbrot.plot();
+  mouse.show();
   mouse.update();
   if (slider.value() != mandelbrot.maxstep) {
     mandelbrot.maxstep = slider.value();
@@ -130,7 +131,7 @@ class Mandelbrot {
 
 let palette = [
   // Shades of purple
-  { r: 22, g: 22, b: 26 }, // dark purple
+  { r: 51, g: 51, b: 51 }, // dark purple
   { r: 75, g: 35, b: 75 }, // medium purple
   { r: 150, g: 111, b: 214 }, // light purple
 
@@ -144,16 +145,11 @@ let palette = [
   { r: 134, g: 181, b: 229 }, // light sky blue
   { r: 211, g: 236, b: 248 }, // very light blue
 
-  // Shades of yellow
-  { r: 241, g: 233, b: 191 }, // light yellow
-  { r: 248, g: 201, b: 95 }, // yellow
-  { r: 255, g: 170, b: 0 }, // bright yellow
-
   // Shades of orange
-  { r: 204, g: 128, b: 0 }, // orange
-  { r: 153, g: 87, b: 0 }, // dark orange
-  { r: 106, g: 52, b: 3 }, // darker orange
-  { r: 255, g: 140, b: 0 }, // lighter orange
+  { r: 40, g: 142, b: 105 }, // green
+  { r: 50, g: 162, b: 125 }, // shade green
+  { r: 62, g: 182, b: 125 }, // shade green
+
 ];
 
 function linear_interpolate(color1, color2, fraction) {
@@ -187,6 +183,16 @@ class Mouse {
       pop();
     }
   }
+  show(){
+    push();
+    textSize(14);
+    noStroke();
+    
+    let x = map(mouseX, 0, width, mandelbrot.xBounds[0], mandelbrot.xBounds[1]);
+    let y = map(mouseY, 0, height, mandelbrot.yBounds[0], mandelbrot.yBounds[1]);
+    text("x: " + x + " y: " + y, 20, 20);
+    pop();
+  }
 }
 
 function mousePressed() {
@@ -201,20 +207,25 @@ function mouseReleased() {
   if (mouseOnCanvas() && mouse.len > 10) {
     mouse.down = false;
 
-    // Aspect ratio of the canvas
-    let aspectRatio = width / height;
     // Calculate selected area dimensions
-    let w = Math.abs(mouse.len);
-    let h = Math.abs(mouse.len);
-    // Calculate new boundaries
+    let selectionSize = Math.abs(mouse.len);
+    
+    // Map the selected area to complex plane coordinates
     let xmin = map(mouse.x, 0, width, mandelbrot.xBounds[0], mandelbrot.xBounds[1]);
     let ymin = map(mouse.y, 0, height, mandelbrot.yBounds[0], mandelbrot.yBounds[1]);
-    let xmax = map(mouse.x + w, 0, width, mandelbrot.xBounds[0], mandelbrot.xBounds[1]);
-    let ymax = map(mouse.y + h, 0, height, mandelbrot.yBounds[0], mandelbrot.yBounds[1]);
-    ymax /= aspectRatio;
-    ymin /= aspectRatio;
-    mandelbrot.xBounds = [min(xmin, xmax), max(xmin, xmax)];
-    mandelbrot.yBounds = [min(ymin, ymax), max(ymin, ymax)];
+    let xmax = map(mouse.x + selectionSize, 0, width, mandelbrot.xBounds[0], mandelbrot.xBounds[1]);
+    let ymax = map(mouse.y + selectionSize, 0, height, mandelbrot.yBounds[0], mandelbrot.yBounds[1]);
+
+    // Calculate the actual aspect ratio of the canvas
+    let aspectRatio = width / height;
+
+    // Adjust bounds to keep the aspect ratio consistent
+    let newWidth = xmax - xmin;
+    let newHeight = (ymax - ymin) / aspectRatio;
+
+    mandelbrot.xBounds = [xmin, xmin + newWidth];
+    mandelbrot.yBounds = [ymin, ymin + newHeight];
+
     mandelbrot.boundsSave.push([mandelbrot.xBounds, mandelbrot.yBounds]);
     mandelbrot.makeGrid();
   } else {
@@ -222,12 +233,16 @@ function mouseReleased() {
   }
 }
 
+
 function mouseOnCanvas() {
   return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
 }
 
 function windowResized() {
-  //resizeCanvas(int(windowHeight * 0.8), int(windowHeight * 0.7));
+    let w = document.getElementById("animation-div").offsetWidth * 0.7;
+   let h = w * 0.5;
+  resizeCanvas(int(w), int(h));
+  mandelbrot = new Mandelbrot();
 }
 
 class Slider {

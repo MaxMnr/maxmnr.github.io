@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="/logos/MM_logo.png">
     <link rel="stylesheet" href="style.css" />
     <script src="projects/p5.min.js"></script>
+    <script src="scripts/scroll.js"></script>
     <title>My Website</title>
   </head>
   <body>
@@ -14,9 +15,9 @@
         Maxime MUNARI
       </div>
       <div id="buttons-header">
-        <button class="button-header">Home</button>
-        <button class="button-header">Projects</button>
-        <button class="button-header">About Me</button>
+        <button class="button-header" onClick="scrollToSection('main-section')">Home</button>
+        <button class="button-header" onClick="scrollToSection('projects-section')">Projects</button>
+        <button class="button-header" onClick="scrollToSection('cv-section')">About Me</button>
       </div>
     </header>
 
@@ -30,88 +31,118 @@
       <section id="projects-section">
         <h1 class="section-title">Projects</h1>
         <div class="projects-grid">
+ 
+          <button class="projects-item" onclick="location.href='projects/vicsek/vicsek.html'">
+            <h1>Vicsek's Model</h1>
+            <p>Simulate the collective behaviour of birds using the famous Vicsek Model</p>
+            <h4>2024</h4>
+          </button>
+
+          <button class="projects-item" onclick="location.href='projects/ising/ising.html'">
+            <h1>Ising Model</h1>
+            <p>Simulate an idealized 2D magnetic material with the Ising model</p>
+            <h4>2023</h4>
+          </button>
+      
+          <button class="projects-item" onclick="location.href='projects/gol/gol.html'">
+            <h1>Game Of Life</h1>
+            <p>An interactive exploration of the so called Game Of Life</p>
+            <h4>2023</h4>
+          </button>
+
+          <button class="projects-item" onclick="location.href='projects/chladni/chladni.html'">
+            <h1>Chladni Plate</h1>
+            <p>Simulate a Chladni Plate to visualize complex vibrational patterns and explore stability modes</p>
+            <h4>2022</h4>
+          </button>
+
           <button class="projects-item" onclick="location.href='projects/mandelbrot/mandelbrot.html'">
             <h1>Mandelbrot Set</h1>
-          </button>
-          <button class="projects-item">
-            <h1>Ising Model</h1>
-          </button>
-          <button class="projects-item">
-            <h1>Fourier Series</h1>
-          </button>
-          <button class="projects-item">
-            <h1>Other Project</h1>
+            <p>Explore the Mandelbrot set on your own</p>
+            <h4>2022</h4>
           </button>
         </div>
       </section>
-
+      
       <section id="cv-section">
-        <h1 class="section-title">About me</h1>
-        <div id="cv-container">
-          <div id="cv-education">
-            <h1 class="cv-title">Education</h1>
-            <hr width="90%"/>
-            <div class="cv-education-item">
-              <h2 class="cv-subtitle">CY Cergy Paris University</h2>
-              <h4 class="cv-date">2024-2025</h4>
-              <h3 class="cv-subsubtitle">MSc in Numerical Physics 2nd Year</h3>
+        <h1 class="section-title">About Me</h1>
+        <h2 class="section-subtitle">Education</h2>
+        <div id="cv-education-container">
+            <div class="cv-container cv-education-item">
+                <h2 class="cv-subtitle">Grenoble University</h2>
+                <h4 class="cv-date">2020-2023</h4>
+                <h3 class="cv-subsubtitle">BSc in Physics</h3>
             </div>
-            <div class="cv-education-item">
-              <h2 class="cv-subtitle">Strasbourg University</h2>
-              <h4 class="cv-date">2023-2024</h4>
-              <h3 class="cv-subsubtitle">MSc in Physics 1st Year</h3>
-              
+            <div class="cv-container cv-education-item">
+                <h2 class="cv-subtitle">Strasbourg University</h2>
+                <h4 class="cv-date">2023-2024</h4>
+                <h3 class="cv-subsubtitle">MSc in Physics</h3>
             </div>
-            <div class="cv-education-item">
-              <h2 class="cv-subtitle">Grenoble University</h2>
-              <h4 class="cv-date">2020-2023</h4>
-              <h3 class="cv-subsubtitle">BSc in Physics</h3>
+            <div class="cv-container cv-education-item">
+                <h2 class="cv-subtitle">CY Paris University</h2>
+                <h4 class="cv-date">2024-2025</h4>
+                <h3 class="cv-subsubtitle">MSc in Numerical Physics 2nd Year</h3>
             </div>
-          </div>
+        </div>
 
-          <div id="cv-experience">
-            <h1 class="cv-title">Experience</h1>
-            <hr width="90%"/>
-            <div class="cv-experience-item">
-              <h2 class="cv-subtitle">Internship - IPHC Strasbourg</h2>
-              <p class="cv-date">Feb 2024 - May 2024</p>
-              <p class="cv-description">Building several Machine Learning architectures from scratch using PyTorch for <em>p-p</em> jet tagging at LHC.
-                I recovered results from literature using two datasets of quark and gluon jets generated with Pythia8.</p>
-              <p class="cv-keywords">Keywords: DNN, CNN, GNN, PointCloud, ParticleNet/NeXt<p>
+
+        <h2 class="section-subtitle">Experience</h2>
+        <div id="cv-experience-container">
+            <div class="cv-container cv-experience-item">
+                <h2 class="cv-subtitle">Internship - IPHC Strasbourg</h2>
+                <p class="cv-date">Feb 2024 - May 2024</p>
+                <p class="cv-description">Building several Machine Learning architectures from scratch using PyTorch for <em>p-p</em> jet tagging at LHC.
+                    I recovered results from literature using two datasets of quark and gluon jets generated with Pythia8.</p>
+                <p class="cv-keywords">Keywords: DNN, CNN, GNN, PointCloud, ParticleNet/NeXt</p>
                 <a class="download-button" href="downloadable/MUNARI_INTERN_IPHC.pdf" download="MUNARI_INTERN_IPHC.pdf">See Slides</a>
             </div>  
-            <div class="cv-experience-item">
-              <h2 class="cv-subtitle">Internship - Marseille Astrophysics Laboratory (LAM)</h2>
-              <h3 class="cv-date">Jun 2023 - Jul 2023</h3>
-              <p class="cv-description">Analyzing the distribution of galaxies in a simulated catalog representing anticipated findings from the
-                Euclid telescope project. Evaluating the influence of inherent errors associated with measuring high red
-                shift objects.</p>
-              <p class="cv-keywords">Keywords: Redshift Measurement, Two-Points Correlation, High Performance Computing, Error Correction</p>
-              <a class="download-button" href="downloadable/MUNARI_INTERN_LAM.pdf" download="MUNARI_INTERN_LAM.pdf">See Poster</a>
-            </div>
-          </div>
+    
+            <div class="cv-container cv-experience-item">
+                <h2 class="cv-subtitle">Internship - Marseille Astrophysics Laboratory (LAM)</h2>
+                <h3 class="cv-date">Jun 2023 - Jul 2023</h3>
+                <p class="cv-description">Analyzing the distribution of galaxies in a simulated catalog representing anticipated findings from the
+                    Euclid telescope project. Evaluating the influence of inherent errors associated with measuring high red
+                    shift objects.</p>
+                <p class="cv-keywords">Keywords: Redshift Measurement, Two-Points Correlation, High Performance Computing, Error Correction</p>
+                <a class="download-button" href="downloadable/MUNARI_INTERN_LAM.pdf" download="MUNARI_INTERN_LAM.pdf">See Poster</a>
+            </div>  
         </div>
-        <div class="cv-skills">
-          <h1 class="cv-title">Technical Skills</h1>
-          <div class="cv-skills-container">
-            <div id="cv-skills-item">
-              <h2 class="cv-subtitle">Programming Languages</h2>
-              <hr width="40%"/>
-              <p class="cv-description">Python, JavaScript, Matlab, Java, C++</p>
+
+
+        <h2 class="section-subtitle">Technical Skills</h2>
+        <div id="cv-skill-container">
+            <div class="cv-container cv-skills-item">
+                <h2 class="cv-subtitle">Data Analysis</h2>
+                <hr/>
+                <div class="cv-skills-item-logos">
+                  <img src="./logos/python_logo.svg" alt="Python" class="cv-skills-logo"/>
+                  <img src="./logos/matlab_logo.svg" alt="Matlab" class="cv-skills-logo"/>
+                  <img src="./logos/java_logo.svg" alt="Java" class="cv-skills-logo"/>
+                  <img src="./logos/cpp_logo.svg" alt="Cpp" class="cv-skills-logo"/>
+                </div>
             </div>
-            <div id="cv-skills-item">
+            <div class="cv-container cv-skills-item">
               <h2 class="cv-subtitle">Web Development</h2>
-              <hr width="40%"/>
-              <p class="cv-description">HTML5, CSS3, JS, React</p>
+              <hr/>
+              <div class="cv-skills-item-logos">
+                <img src="./logos/html_logo.svg" alt="HTML" class="cv-skills-logo"/>
+                <img src="./logos/css_logo.svg" alt="CSS" class="cv-skills-logo"/>
+                <img src="./logos/javascript_logo.svg" alt="Javascript" class="cv-skills-logo"/>
+                <img src="./logos/react_logo.svg" alt="React" class="cv-skills-logo"/>
+              </div>
             </div>
-            <div id="cv-skills-item">
+            <div class="cv-container cv-skills-item">
               <h2 class="cv-subtitle">Visual & Graphics Design</h2>
-              <hr width="40%"/>
-              <p class="cv-description">Adobe Illustrator, Final Cut Pro, Blender</p>
+              <hr/>
+              <div class="cv-skills-item-logos">
+                <img src="./logos/illustrator_logo.svg" alt="AI" class="cv-skills-logo"/>
+                <img src="./logos/finalcutpro_logo.svg" alt="FCP" class="cv-skills-logo"/>
+                <img src="./logos/blender_logo.svg" alt="Blender" class="cv-skills-logo"/>
+              </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
+    
 
     </main>
 

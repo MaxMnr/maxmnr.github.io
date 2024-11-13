@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/logos/MM_logo.png">
+    <link rel="stylesheet" href="../../style.css" />
+    <script src="../../scripts/scroll.js"></script>
+    
+    <script src="../p5.min.js"></script>
+    <title>My Website</title>
+  </head>
+  <body>
+    <header>
+      <div id="logo-header">
+        Maxime MUNARI
+      </div>
+      <div id="buttons-header">
+        <button class="button-header" onclick="redirectToSection('main-section')">Home</button>
+        <button class="button-header" onclick="redirectToSection('projects-section')">Projects</button>
+        <button class="button-header" onclick="redirectToSection('cv-section')">About Me</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="animation-container">
+        <h1 class="section-title">Game Of Life</h1>
+        <hr width="80%"/>
+        <p class="project-description">
+          Play the Game of Life and explore how a set of simple rules governing cell interactions can lead to the spontaneous emergence
+          of complex and fascinating structures, patterns, and behaviors over time. 
+          <br/><br/>
+          The rules are as follows:
+          <br/><br/>
+          1. A live cell with less than two live neighbors dies (underpopulation).<br/>
+          2. A live cell with two or three live neighbors stays alive (survival).<br/>
+          3. A live cell with more than three live neighbors dies (overpopulation).<br/>
+          4. A dead cell with exactly three live neighbors becomes alive (reproduction).<br/>
+          <br/>
+          To control the simulation, you can:<br/><br/>
+          &#8594; Click on any cell to toggle its state (dead/alive)<br/>
+          &#8594; Adjust the size of the grid<br/>
+          &#8594; Control the speed of the simulation<br/>
+          &#8594; Place predefined patterns on the grid by selecting a mask<br/>
+          &#8594; Set a random grid<br/>
+        </p>
+        <div id="animation-div">
+          <div id="animation-canvas"></div>
+          <div id="animation-widgets"></div>
+        </div>
+        <script src="./scripts/cell.js"></script>
+        <script src="./scripts/gol.js"></script>
+        <script src="./scripts/grid.js"></script>
+        <script src="./scripts/mask.js"></script>
+        <script src="./scripts/sketch.js"></script>
+        <script src="./scripts/widgets.js"></script>
+      </section>
+    </main>
+
+    <footer>
+      <p>Maxime MUNARI &copy;2024 </p>
+    </footer>
+  </body>
+</html>

@@ -23,22 +23,22 @@
 
     <main>
       <section id="animation-container">
-        <h1 class="section-title">Mandelbrot Set</h1>
+        <h1 class="section-title">Chladni Plate</h1>
         <hr width="80%"/>
-
         <p class="project-description">
-          This interactive tool allows you to explore the Mandelbrot set. 
-          You can zoom in by dragging a rectangle on the canvas with your mouse and adjust the number 
-          of iterations using the slider to refine the set's details. <br/><br/>
-          To navigate the zoom levels, you can:<br/>
-          &#8594; Use the back button to return to the previous zoom level<br/>
-          &#8594; Click the reset button to return to the initial zoom level<br/>
-        </p>
+            This simulation visualizes Chladni plate patterns, which are unique vibrational modes on a surface 
+            responding to different frequencies. By moving your mouse over the canvas, 
+            you can adjust the integers N and M, 
+            which define the standing wave pattern solutions to the differential equation governing the plate's vibrations. <br/><br/>
+            To interact with the simulation:<br/>
+            &#8594; Hover your mouse over the canvas to change N and M, revealing new resonance patterns<br/>
+            &#8594; Observe how different integer values create intricate and distinct vibrational shapes on the plate<br/>
+          </p>
+          
         <div id="animation-div">
           <div id="animation-canvas"></div>
-          <div id="animation-widgets"></div>
         </div>
-        <script src="./mandelbrot.js"></script>
+        <script src="./chladni.js"></script>
       </section>
     </main>
 

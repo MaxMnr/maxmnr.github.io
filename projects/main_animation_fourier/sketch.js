@@ -23,10 +23,10 @@ function preload() {
 }
 
 function setup() {
-  let w = document.getElementById("main-section").offsetWidth;
-  let h = document.getElementById("main-section").offsetHeight;
+  let w = document.getElementById("p5-main-animation").offsetWidth;
+  let h = document.getElementById("p5-main-animation").offsetHeight;
 
-  canvas = createCanvas(w, h*0.99);
+  canvas = createCanvas(w, h);
   canvas.parent("p5-main-animation");
 
   points_left = parse_file(data_left);
@@ -49,6 +49,9 @@ function draw() {
   fourier_right_1.updateAndShow();
   fourier_right_2.updateAndShow();
   fourier_right_3.updateAndShow();
+  if (fourier_left.t > 1.1*TWO_PI){
+    noLoop();
+  }
 }
 
 function parse_file(data){
