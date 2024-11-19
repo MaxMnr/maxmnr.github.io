@@ -14,7 +14,7 @@ function setup() {
    pixelDensity(1);
    mandelbrot = new Mandelbrot();
    mouse = new Mouse();
-   slider = new Slider(32, 256, 16, 16, "Maximum Iter:");
+   slider = new Slider(32, 128, 16, 8, "Maximum Iter:");
 
    returnButton = createButton("Return").mousePressed(returnB);
    resetButton = createButton("Reset").mousePressed(resetB);
