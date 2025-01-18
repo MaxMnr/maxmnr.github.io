@@ -1,10 +1,9 @@
 @font-face {
-  font-family: 'ComputerModern';
-  src: url('fonts/cmunbmr.ttf') format('truetype'); 
+  font-family: 'Computer Modern';
+  src: url('fonts/cmunorm.ttf') format('truetype'); 
   font-weight: normal;
   font-style: normal;
 }
-
 :root {
   --background-color: #242629;
 
@@ -36,18 +35,22 @@
 html{
   scroll-behavior: smooth;
   text-wrap: pretty;
+  font-family: 'Computer Modern', sans-serif;
+
 }
 body {
+  font-family: 'Computer Modern', sans-serif;
+
   background-color: var(--background-color);
   color: var(--font-color-light);
   margin: 0;
   padding: 0;
-  font-family: 'ComputerModern', sans-serif;
 }
 .section-title{
   font-size: var(--font-size-big);
   margin: var(--margin-large);
   padding: var(--padding-medium);
+  
 }
 .download-button{
   display: flex;
@@ -63,9 +66,11 @@ body {
   border: var(--border-size) solid var(--stroke-color);
   border-radius: var(--border-radius);
   align-self: center;
+
 }
 .download-button:hover{
   background-color: var(--tertiary-color);
+
 }
 a:link{
   text-decoration: none;
@@ -108,6 +113,7 @@ header {
   border: none;
   border-radius: 0;
   font-size: 1rem;
+  font-family: 'Computer Modern', sans-serif;
   color: var(--font-color-light);
   margin: 0 var(--margin-small) ;
   padding: var(--padding-small);
@@ -165,6 +171,8 @@ header {
 }
 
 .projects-item {
+  font-family: 'Computer Modern', sans-serif;
+
   width: 100%;
   height: auto;
   display: flex;
