@@ -86,6 +86,7 @@ header {
   align-items: center;
   background-color: var(--quaternary-color);
   border: var(--border-size) solid var(--stroke-color);
+  z-index: 1000;
 }
 #logo-header {
   height:100%;
@@ -124,18 +125,23 @@ header {
   background-color: var(--primary-color);
   border: var(--border-size) solid var(--stroke-color);
   border-bottom: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #p5-main-animation{
-  width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #2cb67d00;
-
 }
+
+
 /* ======================================================== */
 /* ================== Projects Section ================== */
 /* ======================================================== */
 #projects-section {
-  height: 90vh;
+  height: auto;
   background-color: var(--primary-color);
   border: var(--border-size) solid var(--stroke-color);
   border-bottom: none;
@@ -150,6 +156,12 @@ header {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--margin-medium);
+}
+/* Modify the grid template if the screen is a phone format */
+@media screen and (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: repeat(1, minmax(200px, 1fr));
+  }
 }
 
 .projects-item {
@@ -210,21 +222,31 @@ header {
   margin: var(--margin-medium);
 }
 
-#cv-education-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#cv-education-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: var(--margin-medium);
 }
+
 #cv-experience-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(200px, 1200px));
+  gap: var(--margin-medium);
 }
+
 #cv-skill-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: var(--margin-medium);
+}
+
+@media screen and (max-width: 800px) {
+  #cv-education-container {
+    grid-template-columns: repeat(1, minmax(200px, 1fr));
+  }
+  #cv-skill-container {
+    grid-template-columns: repeat(1, minmax(200px, 1fr));
+  }
 }
 
 .cv-education-item{
@@ -232,7 +254,6 @@ header {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  width: 20vw;
   min-width: 200px;
 }
 
@@ -241,7 +262,6 @@ header {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-  width: 75%;
 }
 
 .cv-skills-item {
@@ -252,8 +272,6 @@ header {
   background-color: var(--quaternary-color);
   border: var(--border-size) solid var(--stroke-color);
   border-radius: var(--border-radius);
-  width: 30%;
-  height: 15vh;
 }
 
 .cv-skills-item-logos{
@@ -437,3 +455,24 @@ footer {
   align-items: center;
   flex-direction: column;
 }
+
+
+/* ======================================================== */
+/* ======================= Text/Math ====================== */
+/* ======================================================== */
+
+.project-presentation{
+  border: var(--border-size) solid var(--stroke-color);
+  border-radius: var(--border-radius);
+  padding: var(--padding-medium);
+}
+
+.text-paragraph{
+  display: flex;
+  justify-content: left;
+}
+
+.text-proposition{
+
+}
+

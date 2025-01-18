@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../../style.css" />
     <script src="../../scripts/scroll.js"></script>
     <script src="../p5.min.js"></script>
+    <script src="../mathjax.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <title>My Website</title>
   </head>
   <body>
@@ -22,10 +24,12 @@
     </header>
 
     <main>
-      <section id="animation-container">
-        <h1 class="section-title">Mandelbrot Set</h1>
-        <hr width="80%"/>
+      <section class="project-presentation">
+        <h1 class="section-title">A</h1>
+        
+      </section>
 
+      <section id="animation-container">
         <p class="project-description">
           This interactive tool allows you to explore the Mandelbrot set. 
           You can zoom in by dragging a rectangle on the canvas with your mouse and adjust the number 
@@ -38,7 +42,7 @@
           <div id="animation-canvas"></div>
           <div id="animation-widgets"></div>
         </div>
-        <script src="https://cdn.jsdelivr.net/gh/MaxMnr/mandelbrot-js@main/mandelbrot.js"></script>
+        <script src="./mandelbrot.js"></script>
       </section>
     </main>
 
