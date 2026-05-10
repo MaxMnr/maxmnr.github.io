@@ -29,9 +29,8 @@
     <h1>Three-body periodic-orbit explorer</h1>
     <p class="lede">
       A real-time gravitational <span class="mono">N = 3</span> simulator with
-      eight known periodic orbits — Chenciner–Montgomery's figure-8, Lagrange,
-      Euler, and a handful from the Šuvakov–Dmitrašinović and Li–Liao
-      catalogues.
+      three known periodic orbits: Chenciner–Montgomery's figure-8, Lagrange's
+      equilateral triangle, and the Broucke–Hadjidemetriou–Hénon collinear orbit.
     </p>
     <div class="meta">
       <span class="accent">Interactive</span>
@@ -71,7 +70,7 @@
       <p>
         Three equal point masses interact via Newtonian gravity in normalized
         units (<span class="mono">G = m = 1</span>). The integrator is
-        velocity-Verlet — second-order, time-reversible, and symplectic, so
+        velocity-Verlet (second-order, time-reversible, symplectic), so
         energy errors stay bounded over very long runs rather than drifting
         secularly.
       </p>
@@ -79,11 +78,11 @@
         Most orbits below are written in the Šuvakov–Dmitrašinović isosceles
         form: bodies start at <span class="mono">(±1, 0)</span> and
         <span class="mono">(0, 0)</span> with momenta engineered so the
-        centre of mass stays at the origin. Figure-8, Lagrange and Euler use
-        their canonical analytic initial conditions.
+        centre of mass stays at the origin. Chenciner–Montgomery and Lagrange
+        use their canonical analytic initial conditions.
       </p>
       <ul class="controls-list">
-        <li><span class="arrow">→</span><span class="key">Preset</span><span>Pick one of eight orbit families</span></li>
+        <li><span class="arrow">→</span><span class="key">Preset</span><span>Pick one of three orbit families</span></li>
         <li><span class="arrow">→</span><span class="key">Trail</span><span>How long the path persists</span></li>
         <li><span class="arrow">→</span><span class="key">Speed</span><span>Real-time multiplier on the integrator</span></li>
       </ul>
@@ -105,7 +104,7 @@
 
   // preset bar
   const bar = document.getElementById("preset-bar");
-  const order = ["figure-8", "lagrange", "euler", "yarn", "moth", "dragonfly", "broucke", "freefall"];
+  const order = ["figure-8", "lagrange", "bhh"];
   for (const key of order) {
     const p = window.NBODY_PRESETS[key];
     const btn = document.createElement("button");

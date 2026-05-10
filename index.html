@@ -52,7 +52,7 @@
         <div class="hero-meta">
           <span>N = 3 · periodic orbit</span>
           <span class="sep">/</span>
-          <span id="hero-preset-label">Figure-8 · Chenciner–Montgomery</span>
+          <span id="hero-preset-label">Chenciner–Montgomery · Figure-8 orbit, 2000</span>
           <span class="sep">/</span>
           <span>velocity-Verlet integrator</span>
         </div>
@@ -140,7 +140,7 @@
       // Build orbit picker
       const bar = document.getElementById("orbit-bar");
       const presetLabel = document.getElementById("hero-preset-label");
-      const order = ["figure-8", "lagrange", "euler", "yarn", "moth", "dragonfly", "broucke", "freefall"];
+      const order = ["figure-8", "lagrange", "bhh"];
       for (const key of order) {
         const p = window.NBODY_PRESETS[key];
         const btn = document.createElement("button");

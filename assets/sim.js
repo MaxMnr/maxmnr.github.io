@@ -3,8 +3,8 @@
 
   const PRESETS = {
     "figure-8": {
-      label: "Figure-8",
-      sub: "Chenciner–Montgomery, 2000",
+      label: "Chenciner–Montgomery",
+      sub: "Figure-8 orbit, 2000",
       bodies: [
         { x: 0.97000436, y: -0.24308753, vx: 0.46620369, vy: 0.43236573 },
         { x: -0.97000436, y: 0.24308753, vx: 0.46620369, vy: 0.43236573 },
@@ -29,62 +29,18 @@
       period: 2 * Math.PI / Math.sqrt(1 / Math.sqrt(3)),
       view: 1.4,
     },
-    "euler": {
-      label: "Euler",
-      sub: "Collinear, 1767",
-      // equal masses on a line: r = -1, 0, 1; omega^2 = 5/4
-      bodies: (() => {
-        const omega = Math.sqrt(5 / 4);
-        return [
-          { x: -1, y: 0, vx: 0, vy: -omega },
-          { x: 0, y: 0, vx: 0, vy: 0 },
-          { x: 1, y: 0, vx: 0, vy: omega },
-        ];
-      })(),
-      period: 2 * Math.PI / Math.sqrt(5 / 4),
-      view: 1.5,
-    },
-    "yarn": {
-      label: "Yarn",
-      sub: "Šuvakov–Dmitrašinović, 2013",
-      ...suvakov(0.55906, 0.34919),
-      period: 55.5,
-      view: 2.4,
-    },
-    "moth": {
-      label: "Moth I",
-      sub: "Šuvakov–Dmitrašinović, 2013",
-      ...suvakov(0.46444, 0.39606),
-      period: 14.89,
-      view: 2.0,
-    },
-    "dragonfly": {
-      label: "Dragonfly",
-      sub: "Šuvakov–Dmitrašinović, 2013",
-      ...suvakov(0.08058, 0.58884),
-      period: 21.27,
-      view: 2.0,
-    },
-    "broucke": {
-      label: "Broucke–Hénon",
-      sub: "Broucke A1, 1975",
-      // Broucke A1 from Šuvakov-style isosceles family
-      ...suvakov(0.30689, 0.12551),
-      period: 6.235,
-      view: 1.8,
-    },
-    "freefall": {
-      label: "BHH free-fall",
-      sub: "Li & Liao, 2019",
-      // Free-fall periodic orbit: zero initial velocities, asymmetric triangle
+    "bhh": {
+      label: "BHH",
+      sub: "BHH",
       bodies: [
-        { x: -0.5, y: 0.0, vx: 0, vy: 0 },
-        { x: 0.5, y: 0.0, vx: 0, vy: 0 },
-        { x: 0.0833, y: 0.1273, vx: 0, vy: 0 },
+        { x: -1.3, y: 0, vx: 0, vy: -1.246 },
+        { x: -0.7, y: 0, vx: 0, vy: 0.580 },
+        { x: 2.0, y: 0, vx: 0, vy: 0.667 },
       ],
-      period: 5.5,
-      view: 1.4,
+      period: 18.85,
+      view: 4,
     },
+
   };
 
   function suvakov(p1, p2) {
