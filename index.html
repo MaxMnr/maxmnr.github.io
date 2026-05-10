@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maxime Munari — Physicist · Computational</title>
+  <meta name="description"
+    content="Maxime Munari — PhD candidate in physics at ENS de Lyon. Machine learning and signal processing for high-dimensional scientific data." />
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- React + Babel for the Tweaks panel only -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- nav -->
+  <nav class="nav" data-screen-label="Home Nav">
+    <a href="index.html" class="nav-brand"><span class="dot"></span><span>MM · maxime munari</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </nav>
+
+  <main data-screen-label="01 Home">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-sim" aria-hidden="true">
+        <canvas id="hero-canvas"></canvas>
+      </div>
+      <div class="hero-vignette"></div>
+
+      <div class="hero-content">
+        <div class="eyebrow" style="margin-bottom: 24px">PhD candidate · ENS de Lyon</div>
+        <h1 class="hero-name">Maxime Munari</h1>
+        <p class="hero-tagline">
+          Machine learning, statistical learning, and signal processing for
+          high-dimensional scientific data.
+        </p>
+        <div class="hero-meta">
+          <span>N = 3 · periodic orbit</span>
+          <span class="sep">/</span>
+          <span id="hero-preset-label">Figure-8 · Chenciner–Montgomery</span>
+          <span class="sep">/</span>
+          <span>velocity-Verlet integrator</span>
+        </div>
+      </div>
+
+      <div class="orbit-bar" role="tablist" aria-label="Three-body periodic orbits">
+        <div class="orbit-bar-inner" id="orbit-bar"></div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ABOUT -->
+    <section class="section" id="about" data-screen-label="About">
+      <div class="about-grid">
+        <div>
+          <div class="portrait">
+            <img src="assets/photo.png" alt="Portrait of Maxime Munari" />
+          </div>
+          <div class="portrait-caption">Lyon · 2025</div>
+        </div>
+
+        <div class="about-body">
+          <div class="eyebrow" style="margin-bottom: 20px">About</div>
+          <p>
+            I'm a physicist who works at the boundary of statistics, signal
+            processing, and machine learning. My research targets the regime
+            where data is <strong>high-dimensional</strong>, signal is
+            <strong>weak</strong>, and naive evaluation
+            <strong>leaks</strong>, the regime where most premade
+            methods quietly fail.
+          </p>
+          <p>
+            Currently a PhD candidate at <strong>ENS de Lyon</strong> with
+            Pierre Borgnat, building robust learning pipelines for biomedical
+            mass spectrometry. Before that, computer vision for active matter,
+            graph neural networks at CMS.
+          </p>
+
+          <div class="kw-block">
+            <div class="kw-label">Research</div>
+            <div class="chips">
+              <span class="chip">machine learning</span>
+              <span class="chip">robust learning</span>
+              <span class="chip">leakage-free evaluation</span>
+              <span class="chip">weak-signal analysis</span>
+              <span class="chip">high-dimensional data</span>
+              <span class="chip">signal processing</span>
+            </div>
+          </div>
+
+          <div class="kw-block">
+            <div class="kw-label">Outside</div>
+            <div class="chips">
+              <span class="chip">generative art with code</span>
+              <span class="chip">physical simulations</span>
+              <span class="chip">cinephile</span>
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <a href="mailto:maxime.munari@ens-lyon.fr">maxime.munari@ens-lyon.fr</a>
+            <a href="https://github.com/MaxMnr" target="_blank" rel="noopener">github.com/MaxMnr</a>
+            <a href="https://www.linkedin.com/in/maxime-munari-aa5026387/" target="_blank" rel="noopener">linkedin</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Maxime Munari · Lyon, France</span>
+    <!--<span>Integrator: velocity-Verlet · G = m = 1</span>-->
+  </footer>
+
+  <!-- N-body sim -->
+  <script src="assets/sim.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById("hero-canvas");
+      const sim = new window.NBodySim(canvas, { preset: "figure-8" });
+      window.__sim = sim;
+
+      // Build orbit picker
+      const bar = document.getElementById("orbit-bar");
+      const presetLabel = document.getElementById("hero-preset-label");
+      const order = ["figure-8", "lagrange", "euler", "yarn", "moth", "dragonfly", "broucke", "freefall"];
+      for (const key of order) {
+        const p = window.NBODY_PRESETS[key];
+        const btn = document.createElement("button");
+        btn.className = "orbit-btn" + (key === "figure-8" ? " active" : "");
+        btn.textContent = p.label;
+        btn.dataset.key = key;
+        btn.addEventListener("click", () => {
+          sim.load(key);
+          bar.querySelectorAll(".orbit-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          presetLabel.textContent = `${p.label} · ${p.sub}`;
+        });
+        bar.appendChild(btn);
+      }
+    })();
+  </script>
+
+  <!-- Tweaks -->
+  <script type="text/babel" src="assets/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="assets/tweaks-app.jsx"></script>
+
+</body>
+
+</html>
