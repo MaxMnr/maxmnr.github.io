@@ -74,9 +74,7 @@
             <span>p5.js</span><span>fractals</span><span>smooth iteration</span>
           </div>
         </div>
-        <div class="pc-visual">
-          <div class="placeholder">drag · zoom · warm cream</div>
-        </div>
+        <div class="pc-visual"><canvas id="thumb-mandelbrot"></canvas></div>
         <div class="pc-arrow">→</div>
       </a>
 
@@ -98,9 +96,7 @@
             <span>p5.js</span><span>Monte Carlo</span><span>statistical mechanics</span>
           </div>
         </div>
-        <div class="pc-visual">
-          <div class="placeholder">spins · phase transition</div>
-        </div>
+        <div class="pc-visual"><canvas id="thumb-ising"></canvas></div>
         <div class="pc-arrow">→</div>
       </a>
 
@@ -122,9 +118,7 @@
             <span>scikit-learn</span><span>PyTorch</span><span>signal processing</span>
           </div>
         </div>
-        <div class="pc-visual">
-          <div class="placeholder">m / z · intensity matrix</div>
-        </div>
+        <div class="pc-visual"><canvas id="thumb-massspec"></canvas></div>
         <div class="pc-arrow" style="visibility:hidden">→</div>
       </div>
   </main>
@@ -135,13 +129,22 @@
         rel="noopener">github.com/MaxMnr</a></span>
   </footer>
 
-  <!-- thumbnail sim -->
+  <!-- thumbnail sims -->
   <script src="assets/sim.js"></script>
+  <script src="assets/thumb.js"></script>
   <script>
     (function () {
-      const c = document.getElementById("thumb-nbody");
-      if (!c) return;
-      new window.NBodySim(c, { preset: "moth", trailLength: 0.85, speed: 1.0 });
+      const nb = document.getElementById("thumb-nbody");
+      if (nb) new window.NBodySim(nb, { preset: "moth", trailLength: 0.85, speed: 1.0 });
+
+      const mb = document.getElementById("thumb-mandelbrot");
+      if (mb) new window.MandelbrotThumb(mb);
+
+      const is = document.getElementById("thumb-ising");
+      if (is) new window.IsingThumb(is);
+
+      const ms = document.getElementById("thumb-massspec");
+      if (ms) new window.MassSpecThumb(ms);
     })();
   </script>
 
