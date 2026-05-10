@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mandelbrot — Maxime Munari</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="stylesheet" href="../assets/project-page.css" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-brand"><span class="dot"></span><span>MM · maxime munari</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../resume.html">Resume</a></li>
+      <li><a href="../projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
+
+  <main data-screen-label="Mandelbrot">
+
+    <header class="project-hero">
+      <div class="crumb">
+        <a href="../projects.html">Projects</a>
+        <span class="arrow">→</span>
+        <span>Mandelbrot set explorer</span>
+      </div>
+      <h1>Mandelbrot set explorer</h1>
+      <p class="lede">
+        An interactive zoomable rendering of the Mandelbrot set, with smooth
+        iteration count for continuous coloring. The palette has been tuned to
+        the site's deep-space warmth — indigo, plum, brick, amber, cream.
+      </p>
+      <div class="meta">
+        <span class="accent">Interactive</span>
+        <span>p5.js · Canvas 2D</span>
+        <span>Smooth iteration count</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <div class="canvas-frame">
+        <div id="canvas-host" class="canvas-host"></div>
+      </div>
+
+      <div class="widgets">
+        <div class="group">
+          <span class="lbl">Max iterations</span>
+          <input type="range" id="iter-slider" min="32" max="384" step="16" value="96" />
+          <span class="val" id="iter-val">96</span>
+        </div>
+        <div class="group" style="margin-left:auto">
+          <button id="btn-back">Back</button>
+          <button id="btn-reset" class="primary">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="project-desc-block">
+      <h2>Notes</h2>
+      <div>
+        <p>
+          Iterates <span class="mono">z<sub>n+1</sub> = z<sub>n</sub>² + c</span>
+          for each pixel and uses the smooth-iteration formula
+          <span class="mono">n + 1 − log(log|z|)/log 2</span> to avoid the
+          banding you get with integer escape times.
+        </p>
+        <p>
+          The palette is sampled with a non-linear ramp so the high-detail
+          warm zone — where iteration counts cluster near the boundary — gets
+          the most colour budget.
+        </p>
+        <ul class="controls-list">
+          <li><span class="arrow">→</span><span class="key">Drag</span><span>Drag a square on the canvas to zoom
+              in</span></li>
+          <li><span class="arrow">→</span><span class="key">Back</span><span>Step out one zoom level</span></li>
+          <li><span class="arrow">→</span><span class="key">Reset</span><span>Return to the full set</span></li>
+          <li><span class="arrow">→</span><span class="key">Slider</span><span>Raise iteration count for deeper
+              detail</span></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span><a href="../projects.html" style="color:inherit; border:none">← All projects</a></span>
+    <span>© 2026 Maxime Munari</span>
+  </footer>
+
+  <script src="mandelbrot.js"></script>
+</body>
+
+</html>

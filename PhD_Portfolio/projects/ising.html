@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2D Ising Model — Maxime Munari</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="stylesheet" href="../assets/project-page.css" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-brand"><span class="dot"></span><span>MM · maxime munari</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../resume.html">Resume</a></li>
+    <li><a href="../projects.html" class="active">Projects</a></li>
+  </ul>
+</nav>
+
+<main data-screen-label="Ising">
+
+  <header class="project-hero">
+    <div class="crumb">
+      <a href="../projects.html">Projects</a>
+      <span class="arrow">→</span>
+      <span>2D Ising model</span>
+    </div>
+    <h1>2D Ising model</h1>
+    <p class="lede">
+      An idealized 2D magnet under Glauber dynamics. Sweep the temperature
+      across the critical point (T<sub>c</sub> ≈ 2.269) and watch the
+      ferromagnetic / paramagnetic phase transition emerge.
+    </p>
+    <div class="meta">
+      <span class="accent">Interactive</span>
+      <span>p5.js · Glauber dynamics</span>
+      <span>Marching-squares contour</span>
+    </div>
+  </header>
+
+  <div class="project-body">
+    <div class="canvas-frame">
+      <div id="canvas-host" class="canvas-host"></div>
+    </div>
+
+    <div class="widgets">
+      <div class="group">
+        <span class="lbl">Temperature</span>
+        <input type="range" id="temp-slider" min="0.1" max="5" step="0.01" value="2.27" />
+        <span class="val" id="temp-val">2.27</span>
+      </div>
+      <div class="group">
+        <span class="lbl">Resolution</span>
+        <input type="range" id="res-slider" min="10" max="80" step="1" value="32" />
+        <span class="val" id="res-val">32</span>
+      </div>
+      <div class="group">
+        <span class="lbl">⟨m⟩</span>
+        <span class="val" id="mag-val">0.000</span>
+      </div>
+      <div class="group" style="margin-left:auto">
+        <button id="btn-reset">Reset</button>
+        <button id="btn-start" class="primary">Start</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="project-desc-block">
+    <h2>Notes</h2>
+    <div>
+      <p>
+        Each lattice site carries a spin <span class="mono">s ∈ {−1, +1}</span>.
+        At each Monte-Carlo sweep, sites are visited in random order and
+        flipped with the Glauber probability
+        <span class="mono">p = 1 / (1 + e<sup>ΔE / T</sup>)</span>, where
+        <span class="mono">ΔE</span> is the four-neighbour energy change.
+        Boundaries are periodic.
+      </p>
+      <p>
+        Below <span class="mono">T<sub>c</sub></span> the system condenses into
+        large monochrome domains; above it, fluctuations dominate and the
+        magnetisation hovers around zero. The cream contour overlay is a
+        marching-squares isoline of the spin field — the visible domain wall.
+      </p>
+      <ul class="controls-list">
+        <li><span class="arrow">→</span><span class="key">Temperature</span><span>Slide across <span class="mono">T<sub>c</sub></span> ≈ 2.269 to see the transition</span></li>
+        <li><span class="arrow">→</span><span class="key">Resolution</span><span>Lattice size — bigger lattices show critical fluctuations more clearly</span></li>
+        <li><span class="arrow">→</span><span class="key">Start</span><span>Begin / pause the dynamics</span></li>
+        <li><span class="arrow">→</span><span class="key">Reset</span><span>Re-roll a fresh random initial state</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span><a href="../projects.html" style="color:inherit; border:none">← All projects</a></span>
+  <span>© 2026 Maxime Munari</span>
+</footer>
+
+<script src="ising.js"></script>
+</body>
+</html>
