@@ -139,7 +139,7 @@ class Body {
         const b = blue(col);
 
         // Fake radial gradient / glow
-        const glowRadius = constrain(this.rad * 4, 0.01, 1.2);
+        const glowRadius = constrain(this.rad * 4, 0.01, 0.8);
         const layers = 50;
 
         for (let i = layers; i >= 1; i--) {

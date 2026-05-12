@@ -63,6 +63,7 @@ class Simulation {
     }
 
     loadPreset(preset) {
+        this.camera.reset()
         for (const body of this.bodies) {
             if (body.pane) body.pane.dispose();
         }

@@ -1,33 +1,4 @@
 {
-    "yarn": {
-        "label": "Sun–Earth–Moon",
-        "sub": "Hierarchical triple system",
-        "bodies": [
-            {
-                "x": 0,
-                "y": 0,
-                "vx": 0.0,
-                "vy": 0.0,
-                "mass": 1000
-            },
-            {
-                "x": 5,
-                "y": 0,
-                "vx": 0.0,
-                "vy": 14.1421356237,
-                "mass": 1
-            },
-            {
-                "x": 5.5,
-                "y": 0,
-                "vx": 0.0,
-                "vy": 15.5563491861,
-                "mass": 0.001
-            }
-        ],
-        "period": 11,
-        "view": 8
-    },
     "figure-8": {
         "label": "Chenciner–Montgomery",
         "sub": "Figure-8 orbit, 2000",

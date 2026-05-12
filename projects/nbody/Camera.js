@@ -7,6 +7,11 @@ class Camera2D {
         this.minViewSize = 2;
         this.maxViewSize = 30;
     }
+    reset() {
+        this.x = 0;
+        this.y = 0;
+        this.viewSize = 0;
+    }
 
     apply() {
         const zoom = height / this.viewSize;
