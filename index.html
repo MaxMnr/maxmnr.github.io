@@ -158,7 +158,7 @@
         noStroke();
 
         heroCamera = new Camera2D(preset.view || 1.8);
-        heroSim = new Simulation(1, 0.001, 0.001);
+        heroSim = new Simulation(1, 0.001, 0.001, heroCamera);
         heroSim.loadPreset(preset);
         heroSim.substeps = 15;   // gentle pace for background
         heroSim.running = true;
