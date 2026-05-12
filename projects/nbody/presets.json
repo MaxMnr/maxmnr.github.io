@@ -1,4 +1,33 @@
 {
+    "yarn": {
+        "label": "Sun–Earth–Moon",
+        "sub": "Hierarchical triple system",
+        "bodies": [
+            {
+                "x": 0,
+                "y": 0,
+                "vx": 0.0,
+                "vy": 0.0,
+                "mass": 1000
+            },
+            {
+                "x": 5,
+                "y": 0,
+                "vx": 0.0,
+                "vy": 14.1421356237,
+                "mass": 1
+            },
+            {
+                "x": 5.5,
+                "y": 0,
+                "vx": 0.0,
+                "vy": 15.5563491861,
+                "mass": 0.001
+            }
+        ],
+        "period": 11,
+        "view": 8
+    },
     "figure-8": {
         "label": "Chenciner–Montgomery",
         "sub": "Figure-8 orbit, 2000",
@@ -52,7 +81,7 @@
             }
         ],
         "period": 8.269115818312946,
-        "view": 1.4
+        "view": 3
     },
     "bhh": {
         "label": "BHH",
@@ -78,7 +107,7 @@
             }
         ],
         "period": 18.85,
-        "view": 4
+        "view": 4.5
     },
     "euler": {
         "label": "Euler",
@@ -107,33 +136,7 @@
             }
         ],
         "period": 5.619851784832581,
-        "view": 2
-    },
-    "yarn": {
-        "label": "Yarn",
-        "sub": "Šuvakov–Dmitrašinović, 2013",
-        "bodies": [
-            {
-                "x": -1,
-                "y": 0,
-                "vx": 0.55906,
-                "vy": 0.34919
-            },
-            {
-                "x": 1,
-                "y": 0,
-                "vx": 0.55906,
-                "vy": 0.34919
-            },
-            {
-                "x": 0,
-                "y": 0,
-                "vx": -1.11812,
-                "vy": -0.69838
-            }
-        ],
-        "period": 55.5,
-        "view": 2.4
+        "view": 2.5
     },
     "moth": {
         "label": "Moth I",
@@ -159,6 +162,6 @@
             }
         ],
         "period": 14.89,
-        "view": 2.0
+        "view": 4
     }
 }

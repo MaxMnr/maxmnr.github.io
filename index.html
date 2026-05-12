@@ -137,18 +137,16 @@
   <!-- Hero background sketch (p5 global mode, no interaction, no TweakPane) -->
   <script>
     (function () {
-      // figure-8 preset embedded — no JSON fetch needed for the background
-      const HERO_PRESET = {
-        bodies: [
-          { x: -1, y: 0, vx: 0.3471168881, vy: 0.5327249454, mass: 1.0 },
-          { x: 1, y: 0, vx: 0.3471168881, vy: 0.5327249454, mass: 1.0 },
-          { x: 0, y: 0, vx: -0.6942337762, vy: -1.0654498908, mass: 1.0 },
-        ]
+      let heroCamera, heroSim, heroStars, heroPresets;
+
+      window.preload = function () {
+        heroPresets = loadJSON('projects/nbody/presets.json');
       };
 
-      let heroCamera, heroSim, heroStars;
-
       window.setup = function () {
+        const keys = Object.keys(heroPresets);
+        const preset = heroPresets[keys[floor(random(keys.length))]];
+
         const heroContainer = document.querySelector('.hero-sim');
         const w = heroContainer.offsetWidth || windowWidth;
         const h = heroContainer.offsetHeight || windowHeight;
@@ -159,12 +157,16 @@
         cnv.style('height', '100%');
         noStroke();
 
-        heroCamera = new Camera2D(1.8);
+        heroCamera = new Camera2D(preset.view || 1.8);
         heroSim = new Simulation(1, 0.001, 0.001);
-        heroSim.loadPreset(HERO_PRESET);
+        heroSim.loadPreset(preset);
         heroSim.substeps = 15;   // gentle pace for background
         heroSim.running = true;
         heroStars = _heroMakeStars();
+
+        const metaSpans = document.querySelectorAll('.hero-meta span:not(.sep)');
+        if (metaSpans[0]) metaSpans[0].textContent = `N = 3 · ${preset.sub}`;
+        if (metaSpans[1]) metaSpans[1].textContent = preset.label;
       };
 
       window.draw = function () {

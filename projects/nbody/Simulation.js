@@ -1,6 +1,6 @@
 
 class Simulation {
-    constructor(G, dt, epsilon) {
+    constructor(G, dt, epsilon, camera = null) {
         this.G = G;
         this.dt = dt;
         this.epsilon = epsilon;
@@ -9,7 +9,7 @@ class Simulation {
         this.trajectories = [];
         this.trajectorySteps = 5000;
         this.trajectoryUpdateStep = 4;
-        this.substeps = 100;
+        this.substeps = 10;
         this.traceLength = 1000;
         this.showCOM = false;
         this.pane = null;
@@ -21,17 +21,27 @@ class Simulation {
             });
             this.initPane();
         }
+        this.camera = camera
     }
 
     initPane() {
         if (!this.pane) return;
+
         this.pane.addBinding(this, "G", { min: 0, max: 10, step: 0.01 });
         this.pane.addBinding(this, "dt", { min: 0.0001, max: 0.01, step: 0.0001 });
-        this.pane.addBinding(this, "epsilon", { min: 0.0001, max: 0.01, step: 0.001 });
-        this.pane.addBinding(this, "showCOM", { label: "Show Center of Mass" });
+        this.pane.addBinding(this, "epsilon", { min: 0.0001, max: 0.1, step: 0.001 });
+        // this.pane.addBinding(this, "showCOM", { label: "Show Center of Mass" });
         this.pane.addBinding(this, "trajectorySteps", { min: 1000, max: 20000, step: 100, label: "Trajectory Steps" });
+        this.pane.addBlade({
+            view: 'separator',
+        });
         this.pane.addBinding(this, "substeps", { min: 1, max: 100, step: 1, label: "Animation Speed" });
-        this.pane.addBinding(this, "traceLength", { min: 100, max: 2000, step: 100, label: "Trace Length" });
+        this.pane.addBinding(this, "traceLength", { min: 100, max: 2000, step: 100, label: "Trail Length" });
+        const btn = this.pane.addButton({ title: 'Start', label: 'Start / Stop' });
+        btn.on('click', () => {
+            this.running = !this.running;
+            btn.title = this.running ? 'Stop' : 'Start';
+        });
     }
 
     // Call after initPane() to insert a preset dropdown at the top of the physics pane.
@@ -62,6 +72,10 @@ class Simulation {
             this.bodies.push(new Body(body.x, body.y, body.vx, body.vy, body.mass, i));
         }
         this.initAcceleration();
+
+        if (this.camera != null) {
+            this.camera.viewSize = preset.view;
+        }
     }
 
     show() {
@@ -94,6 +108,30 @@ class Simulation {
         } else {
             if (frameCount % 5 == 0) {
                 this.calculateTrajectory();
+            }
+        }
+        this.updateRadii();
+    }
+
+    updateRadii() {
+        const minR = 0.05;
+        const maxR = 1;
+        const equalR = 0.055;
+
+        let minM = Infinity, maxM = -Infinity;
+        for (const b of this.bodies) {
+            if (b.mass < minM) minM = b.mass;
+            if (b.mass > maxM) maxM = b.mass;
+        }
+
+        const span = maxM - minM;
+        for (const body of this.bodies) {
+            if (span < 1e-9) {
+                body.rad = equalR;
+            } else {
+                // cube-root curve: 8× mass → 2× radius
+                const t = (body.mass - minM) / span;
+                body.rad = minR + (maxR - minR) * Math.pow(t, 1 / 3);
             }
         }
     }

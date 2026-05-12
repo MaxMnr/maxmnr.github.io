@@ -16,21 +16,28 @@
   </script>
 
   <style>
-    /* pane containers inside the widgets bar */
-    .nb-controls { align-items: flex-start; }
-    .nb-pane { flex: 1 1 260px; min-width: 0; }
+    /* pane row — plain flex container, no font/spacing inheritance from .widgets */
+    .nb-pane-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
 
-    /* TweakPane theme — variables cascade into .tp-rotv where TP reads them */
     .nb-pane {
-      --tp-base-background-color: transparent;
+      flex: 1 1 260px;
+      min-width: 0;
+      position: relative;
+      /* TweakPane theme — cascade into .tp-rotv where TP reads --tp-* vars */
+      --tp-base-background-color: #110F0D;
       --tp-base-shadow-color: transparent;
       --tp-label-foreground-color: #8C8475;
-      --tp-input-background-color: rgba(10, 9, 8, 0.8);
+      --tp-input-background-color: #0A0908;
       --tp-input-background-color-active: #181513;
       --tp-input-background-color-focus: #181513;
-      --tp-input-background-color-hover: #110F0D;
+      --tp-input-background-color-hover: #181513;
       --tp-input-foreground-color: #F2EAD6;
-      --tp-groove-foreground-color: #E8703A;
+      --tp-groove-foreground-color: #3c3c3c;
       --tp-button-background-color: #2A2520;
       --tp-button-background-color-active: #E8703A;
       --tp-button-background-color-focus: #3A332C;
@@ -39,10 +46,14 @@
       --tp-container-background-color: rgba(17, 15, 13, 0.6);
       --tp-container-background-color-active: #181513;
       --tp-container-background-color-focus: #181513;
-      --tp-container-background-color-hover: #110F0D;
+      --tp-container-background-color-hover: #181513;
       --tp-container-foreground-color: #8C8475;
     }
+
     .nb-pane .tp-dfwv {
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
       width: 100% !important;
     }
   </style>
@@ -89,11 +100,8 @@
         </div>
       </div>
 
-      <!-- controls: Start/Stop + TweakPane panels -->
-      <div class="widgets nb-controls">
-        <div class="group">
-          <button id="btn-start-stop">Start</button>
-        </div>
+      <!-- TweakPane panels — own row, no .widgets inheritance -->
+      <div class="nb-pane-row">
         <div id="pane-left" class="nb-pane"></div>
         <div id="pane-right" class="nb-pane"></div>
       </div>
@@ -152,7 +160,8 @@
     (function () {
       let nbCamera, nbSim, nbPresets, nbStars;
       let nbReady = false;
-      let activePreset = 'figure-8';
+      let nbIsPanning = false;
+      let activePreset = 'yarn';
 
       // ── p5 lifecycle ──────────────────────────────────────────────
 
@@ -207,7 +216,7 @@
       window.mouseWheel = function (event) {
         if (!nbReady || !_onCanvas()) return;
         const factor = event.delta > 0 ? 1.05 : 0.95;
-        nbCamera.zoomAt(factor, width / 2, height / 2);
+        nbCamera.zoomAt(factor, mouseX, mouseY);
         return false;
       };
 
@@ -221,18 +230,24 @@
         if (!nbReady || !_onCanvas()) return;
         const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
         nbSim.mousePressed(x, y);
+        nbIsPanning = !nbSim.bodies.some(b => b.is_moving);
       };
 
       window.mouseReleased = function () {
         if (!nbReady) return;
+        nbIsPanning = false;
         const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
         nbSim.mouseReleased(x, y);
       };
 
       window.mouseDragged = function () {
         if (!nbReady || !_onCanvas()) return;
-        const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
-        nbSim.mouseDragged(x, y);
+        if (nbIsPanning) {
+          nbCamera.pan(pmouseX, pmouseY, mouseX, mouseY);
+        } else {
+          const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
+          nbSim.mouseDragged(x, y);
+        }
       };
 
       // ── helpers ───────────────────────────────────────────────────
@@ -242,16 +257,9 @@
       }
 
       function _initSimulation() {
-        nbSim = new Simulation(1, 0.001, 0.001);
+        nbSim = new Simulation(1, 0.001, 0.001, camera = nbCamera);
         nbSim.loadPreset(nbPresets[activePreset]);
         nbSim.addPresetSelector(nbPresets, activePreset);
-
-        const btnSS = document.getElementById('btn-start-stop');
-        btnSS.addEventListener('click', () => {
-          nbSim.running = !nbSim.running;
-          btnSS.textContent = nbSim.running ? 'Stop' : 'Start';
-          btnSS.classList.toggle('primary', nbSim.running);
-        });
       }
 
       function _makeStars() {

@@ -10,7 +10,10 @@ class Body {
     constructor(x, y, vx, vy, mass = 1, colorIndex = 0) {
         this.mass = mass;
         this.rad = 0.05;
-        this.init_params = { "x": x, "y": y, "vx": vx, "vy": vy };
+        this.init_params = {
+            pos: { x, y },
+            vel: { x: vx, y: vy },
+        };
         this.pos = { x, y };
         this.vel = { x: vx, y: vy };
         this.acc = { x: 0, y: 0 };
@@ -36,16 +39,23 @@ class Body {
     initPane() {
         if (!this.pane) return;
         this.pane.addBinding(this, "mass", { min: 0.0001, max: 100, step: 0.0001 });
-        this.pane.addBinding(this.init_params, "vx", { min: -10, max: 10, step: 0.01, label: "vx" });
-        this.pane.addBinding(this.init_params, "vy", { min: -10, max: 10, step: 0.01, label: "vy" });
+        this.pane.addBinding(this.init_params, "vel", {
+            picker: "inline",
+            expanded: true,
+            label: "velocity",
+            x: { min: -20, max: 20, step: 0.01 },
+            y: { min: -20, max: 20, step: 0.01 },
+        });
+        // this.pane.addBinding(this.init_params, "vx", { min: -10, max: 10, step: 0.01, label: "vx" });
+        // this.pane.addBinding(this.init_params, "vy", { min: -10, max: 10, step: 0.01, label: "vy" });
         this.pane.hidden = true;
     }
 
     reset() {
-        this.pos.x = this.init_params.x;
-        this.pos.y = this.init_params.y;
-        this.vel.x = this.init_params.vx;
-        this.vel.y = this.init_params.vy;
+        this.pos.x = this.init_params.pos.x;
+        this.pos.y = this.init_params.pos.y;
+        this.vel.x = this.init_params.vel.x;
+        this.vel.y = this.init_params.vel.y;
         this.acc.x = 0; this.acc.y = 0;
         this.acc_prev.x = 0; this.acc_prev.y = 0;
         this.traceHead = 0;
@@ -75,7 +85,7 @@ class Body {
 
         const start = count < maxtrace ? 0 : this.traceHead;
 
-        const steps = 20;
+        const steps = 50;
         const seg = ceil(count / steps);
 
         for (let s = 0; s < steps; s++) {
@@ -129,7 +139,7 @@ class Body {
         const b = blue(col);
 
         // Fake radial gradient / glow
-        const glowRadius = this.rad * 4;
+        const glowRadius = constrain(this.rad * 4, 0.01, 1.2);
         const layers = 50;
 
         for (let i = layers; i >= 1; i--) {
@@ -140,7 +150,7 @@ class Body {
             const alpha = 255 * 0.12 * pow(1 - t, 1.8);
 
             fill(r, g, b, alpha);
-            circle(x, y, 2 * radius);
+            drawCircle(x, y, 2 * radius, 50);
         }
 
         // Main colored body
@@ -165,12 +175,14 @@ class Body {
     }
 
     drag(mwx, mwy) {
-        this.init_params.x = mwx;
-        this.init_params.y = mwy;
+        this.pos.x = mwx;
+        this.pos.y = mwy;
+        this.init_params.pos.x = mwx;
+        this.init_params.pos.y = mwy;
     }
 
     isInside(x, y) {
-        if (dist(x, y, this.pos.x, this.pos.y) < 2 * this.rad) {
+        if (dist(x, y, this.pos.x, this.pos.y) < this.rad) {
             return true;
         }
     }
