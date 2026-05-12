@@ -1,4 +1,6 @@
 dist/
 build/
 .DS_Store
-
+.vscode
+.gitignore
+.github
