@@ -1,143 +1,288 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Three-body explorer — Maxime Munari</title>
   <link rel="stylesheet" href="../assets/styles.css" />
   <link rel="stylesheet" href="../assets/project-page.css" />
+
+  <!-- TweakPane — loaded as module so window.Pane is set before simulation init -->
+  <script type="module">
+    import { Pane } from 'https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js';
+    window.Pane = Pane;
+    window.__paneReady = true;
+  </script>
+
+  <style>
+    /* pane containers inside the widgets bar */
+    .nb-controls { align-items: flex-start; }
+    .nb-pane { flex: 1 1 260px; min-width: 0; }
+
+    /* TweakPane theme — variables cascade into .tp-rotv where TP reads them */
+    .nb-pane {
+      --tp-base-background-color: transparent;
+      --tp-base-shadow-color: transparent;
+      --tp-label-foreground-color: #8C8475;
+      --tp-input-background-color: rgba(10, 9, 8, 0.8);
+      --tp-input-background-color-active: #181513;
+      --tp-input-background-color-focus: #181513;
+      --tp-input-background-color-hover: #110F0D;
+      --tp-input-foreground-color: #F2EAD6;
+      --tp-groove-foreground-color: #E8703A;
+      --tp-button-background-color: #2A2520;
+      --tp-button-background-color-active: #E8703A;
+      --tp-button-background-color-focus: #3A332C;
+      --tp-button-background-color-hover: #3A332C;
+      --tp-button-foreground-color: #F2EAD6;
+      --tp-container-background-color: rgba(17, 15, 13, 0.6);
+      --tp-container-background-color-active: #181513;
+      --tp-container-background-color-focus: #181513;
+      --tp-container-background-color-hover: #110F0D;
+      --tp-container-foreground-color: #8C8475;
+    }
+    .nb-pane .tp-dfwv {
+      width: 100% !important;
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="nav">
-  <a href="../index.html" class="nav-brand"><span class="dot"></span><span>MM · maxime munari</span></a>
-  <ul class="nav-links">
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="../resume.html">Resume</a></li>
-    <li><a href="../projects.html" class="active">Projects</a></li>
-  </ul>
-</nav>
+  <nav class="nav">
+    <a href="../index.html" class="nav-brand"><span class="dot"></span><span>MM · maxime munari</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../resume.html">Resume</a></li>
+      <li><a href="../projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
 
-<main data-screen-label="N-body">
+  <main data-screen-label="N-body">
 
-  <header class="project-hero">
-    <div class="crumb">
-      <a href="../projects.html">Projects</a>
-      <span class="arrow">→</span>
-      <span>Three-body periodic-orbit explorer</span>
-    </div>
-    <h1>Three-body periodic-orbit explorer</h1>
-    <p class="lede">
-      A real-time gravitational <span class="mono">N = 3</span> simulator with
-      three known periodic orbits: Chenciner–Montgomery's figure-8, Lagrange's
-      equilateral triangle, and the Broucke–Hadjidemetriou–Hénon collinear orbit.
-    </p>
-    <div class="meta">
-      <span class="accent">Interactive</span>
-      <span>velocity-Verlet · symplectic</span>
-      <span>Canvas 2D</span>
-    </div>
-  </header>
-
-  <div class="project-body">
-    <div class="canvas-frame">
-      <div id="canvas-host" class="canvas-host" style="aspect-ratio: 16 / 9">
-        <canvas id="nb-canvas"></canvas>
+    <header class="project-hero">
+      <div class="crumb">
+        <a href="../projects.html">Projects</a>
+        <span class="arrow">→</span>
+        <span>Three-body periodic-orbit explorer</span>
       </div>
-    </div>
-
-    <div class="widgets">
-      <div class="group" id="preset-bar"></div>
-      <div class="group" style="margin-left:auto">
-        <span class="lbl">Trail</span>
-        <input type="range" id="trail-slider" min="5" max="100" step="1" value="60" />
-        <span class="val"><span id="trail-val">60</span>%</span>
-      </div>
-      <div class="group">
-        <span class="lbl">Speed</span>
-        <input type="range" id="speed-slider" min="10" max="300" step="5" value="100" />
-        <span class="val"><span id="speed-val">1.00</span>×</span>
-      </div>
-      <div class="group">
-        <button id="btn-restart" class="primary">Restart</button>
-      </div>
-    </div>
-  </div>
-
-  <section class="project-desc-block">
-    <h2>Notes</h2>
-    <div>
-      <p>
-        Three equal point masses interact via Newtonian gravity in normalized
-        units (<span class="mono">G = m = 1</span>). The integrator is
-        velocity-Verlet (second-order, time-reversible, symplectic), so
-        energy errors stay bounded over very long runs rather than drifting
-        secularly.
+      <h1>Three-body periodic-orbit explorer</h1>
+      <p class="lede">
+        A real-time gravitational <span class="mono">N = 3</span> simulator with
+        three known periodic orbits. Select, drag and reposition bodies, zoom with
+        the scroll wheel, and tune physics parameters with the control panels.
       </p>
-      <p>
-        Most orbits below are written in the Šuvakov–Dmitrašinović isosceles
-        form: bodies start at <span class="mono">(±1, 0)</span> and
-        <span class="mono">(0, 0)</span> with momenta engineered so the
-        centre of mass stays at the origin. Chenciner–Montgomery and Lagrange
-        use their canonical analytic initial conditions.
-      </p>
-      <ul class="controls-list">
-        <li><span class="arrow">→</span><span class="key">Preset</span><span>Pick one of three orbit families</span></li>
-        <li><span class="arrow">→</span><span class="key">Trail</span><span>How long the path persists</span></li>
-        <li><span class="arrow">→</span><span class="key">Speed</span><span>Real-time multiplier on the integrator</span></li>
-      </ul>
+      <div class="meta">
+        <span class="accent">Interactive</span>
+        <span>velocity-Verlet · symplectic</span>
+        <span>p5.js / WebGL</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+
+      <!-- canvas -->
+      <div class="canvas-frame">
+        <div id="canvas-host" class="canvas-host">
+          <!-- p5.js will insert the WebGL canvas here -->
+        </div>
+      </div>
+
+      <!-- controls: Start/Stop + TweakPane panels -->
+      <div class="widgets nb-controls">
+        <div class="group">
+          <button id="btn-start-stop">Start</button>
+        </div>
+        <div id="pane-left" class="nb-pane"></div>
+        <div id="pane-right" class="nb-pane"></div>
+      </div>
+
     </div>
-  </section>
 
-</main>
+    <section class="project-desc-block">
+      <h2>Notes</h2>
+      <div>
+        <p>
+          Three equal point masses interact via Newtonian gravity in normalized
+          units (<span class="mono">G = m = 1</span>). The integrator is
+          velocity-Verlet (second-order, time-reversible, symplectic), so
+          energy errors stay bounded over very long runs rather than drifting
+          secularly.
+        </p>
+        <p>
+          Most orbits below are written in the Šuvakov–Dmitrašinović isosceles
+          form: bodies start at <span class="mono">(±1, 0)</span> and
+          <span class="mono">(0, 0)</span> with momenta engineered so the
+          centre of mass stays at the origin. Chenciner–Montgomery and Lagrange
+          use their canonical analytic initial conditions.
+        </p>
+        <ul class="controls-list">
+          <li><span class="arrow">→</span><span class="key">Preset</span><span>Pick one of three orbit families</span>
+          </li>
+          <li><span class="arrow">→</span><span class="key">Scroll</span><span>Zoom in and out</span></li>
+          <li><span class="arrow">→</span><span class="key">Click body</span><span>Select and reveal its properties
+              panel</span></li>
+          <li><span class="arrow">→</span><span class="key">Drag body</span><span>Reposition a body in world
+              space</span></li>
+          <li><span class="arrow">→</span><span class="key">Physics panel</span><span>Tune G, dt, speed, trace length
+              and more</span></li>
+        </ul>
+      </div>
+    </section>
 
-<footer class="footer">
-  <span><a href="../projects.html" style="color:inherit; border:none">← All projects</a></span>
-  <span>© 2026 Maxime Munari</span>
-</footer>
+  </main>
 
-<script src="../assets/sim.js"></script>
-<script>
-(function () {
-  const canvas = document.getElementById("nb-canvas");
-  const sim = new window.NBodySim(canvas, { preset: "figure-8", trailLength: 0.6 });
+  <footer class="footer">
+    <span><a href="../projects.html" style="color:inherit; border:none">← All projects</a></span>
+    <span>© 2026 Maxime Munari</span>
+  </footer>
 
-  // preset bar
-  const bar = document.getElementById("preset-bar");
-  const order = ["figure-8", "lagrange", "bhh"];
-  for (const key of order) {
-    const p = window.NBODY_PRESETS[key];
-    const btn = document.createElement("button");
-    btn.textContent = p.label;
-    btn.dataset.key = key;
-    if (key === "figure-8") btn.classList.add("primary");
-    btn.addEventListener("click", () => {
-      sim.load(key);
-      bar.querySelectorAll("button").forEach(b => b.classList.remove("primary"));
-      btn.classList.add("primary");
-    });
-    bar.appendChild(btn);
-  }
+  <!-- p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
 
-  const trail = document.getElementById("trail-slider");
-  const trailVal = document.getElementById("trail-val");
-  trail.addEventListener("input", () => {
-    trailVal.textContent = trail.value;
-    sim.setOption("trailLength", trail.value / 100);
-  });
+  <!-- N-body simulation classes (Body.js guards TweakPane usage) -->
+  <script src="nbody/utils.js"></script>
+  <script src="nbody/Camera.js"></script>
+  <script src="nbody/Body.js"></script>
+  <script src="nbody/Simulation.js"></script>
 
-  const speed = document.getElementById("speed-slider");
-  const speedVal = document.getElementById("speed-val");
-  speed.addEventListener("input", () => {
-    speedVal.textContent = (speed.value / 100).toFixed(2);
-    sim.setOption("speed", speed.value / 100);
-  });
+  <!-- Project page sketch (p5 global mode) -->
+  <script>
+    (function () {
+      let nbCamera, nbSim, nbPresets, nbStars;
+      let nbReady = false;
+      let activePreset = 'figure-8';
 
-  document.getElementById("btn-restart").addEventListener("click", () => {
-    sim.load(sim.opts.preset);
-  });
-})();
-</script>
+      // ── p5 lifecycle ──────────────────────────────────────────────
+
+      window.preload = function () {
+        nbPresets = loadJSON('nbody/presets.json');
+      };
+
+      window.setup = function () {
+        const host = document.getElementById('canvas-host');
+        const cnv = createCanvas(host.offsetWidth, host.offsetHeight, WEBGL);
+        cnv.parent('canvas-host');
+        // project-page.css already forces canvas to 100%/100% with !important,
+        // but override inline px size here too for safety
+        cnv.style('width', '100%');
+        cnv.style('height', '100%');
+
+        nbCamera = new Camera2D();
+        nbCamera.fixed = false; // allow scroll-zoom
+        nbStars = _makeStars();
+      };
+
+      window.draw = function () {
+        // Lazy-init: wait for TweakPane module to resolve
+        if (!nbReady) {
+          if (window.__paneReady) {
+            _initSimulation();
+            nbReady = true;
+          } else {
+            background('#0A0908');
+            return;
+          }
+        }
+
+        background('#0A0908');
+        // Stars drawn in screen space so they don't scroll with camera pan/zoom
+        _drawStars(nbStars);
+        push();
+        nbCamera.apply();
+        nbSim.update();
+        nbSim.show();
+        pop();
+      };
+
+      window.windowResized = function () {
+        const host = document.getElementById('canvas-host');
+        if (host) resizeCanvas(host.offsetWidth, host.offsetHeight);
+        nbStars = _makeStars();
+      };
+
+      // ── mouse interactions ────────────────────────────────────────
+
+      window.mouseWheel = function (event) {
+        if (!nbReady || !_onCanvas()) return;
+        const factor = event.delta > 0 ? 1.05 : 0.95;
+        nbCamera.zoomAt(factor, width / 2, height / 2);
+        return false;
+      };
+
+      window.mouseClicked = function () {
+        if (!nbReady || !_onCanvas()) return;
+        const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
+        nbSim.mouseClicked(x, y);
+      };
+
+      window.mousePressed = function () {
+        if (!nbReady || !_onCanvas()) return;
+        const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
+        nbSim.mousePressed(x, y);
+      };
+
+      window.mouseReleased = function () {
+        if (!nbReady) return;
+        const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
+        nbSim.mouseReleased(x, y);
+      };
+
+      window.mouseDragged = function () {
+        if (!nbReady || !_onCanvas()) return;
+        const { x, y } = nbCamera.screenToWorld(mouseX, mouseY);
+        nbSim.mouseDragged(x, y);
+      };
+
+      // ── helpers ───────────────────────────────────────────────────
+
+      function _onCanvas() {
+        return mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
+      }
+
+      function _initSimulation() {
+        nbSim = new Simulation(1, 0.001, 0.001);
+        nbSim.loadPreset(nbPresets[activePreset]);
+        nbSim.addPresetSelector(nbPresets, activePreset);
+
+        const btnSS = document.getElementById('btn-start-stop');
+        btnSS.addEventListener('click', () => {
+          nbSim.running = !nbSim.running;
+          btnSS.textContent = nbSim.running ? 'Stop' : 'Start';
+          btnSS.classList.toggle('primary', nbSim.running);
+        });
+      }
+
+      function _makeStars() {
+        const stars = [];
+        const hw = width / 2, hh = height / 2;
+        const count = Math.max(200, Math.floor((width * height) / 6000));
+        for (let n = 0; n < count; n++) {
+          stars.push({
+            // screen-space in WEBGL: origin at canvas center
+            x: random(-hw, hw),
+            y: random(-hh, hh),
+            r: random(0.5, 2.5),  // pixels
+            a: random(0.15, 0.7),
+            tw: random(TWO_PI),
+          });
+        }
+        return stars;
+      }
+
+      function _drawStars(stars) {
+        noStroke();
+        for (const s of stars) {
+          s.tw += 0.02;
+          const alpha = s.a * (0.7 + 0.3 * sin(s.tw));
+          fill(242, 234, 214, alpha * 255);
+          circle(s.x, s.y, 2 * s.r);
+        }
+      }
+    })();
+  </script>
 
 </body>
+
 </html>

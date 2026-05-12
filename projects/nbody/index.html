@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/addons/p5.sound.min.js"></script>
+    <!-- import tweakpane -->
+    <script type="module">
+        // import the library as a module
+        import { Pane } from 'https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js';
+        // then, add it to the "browser" so that it can be used as "global."
+        window.Pane = Pane;
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+</head>
+
+<body>
+    <script src="utils.js"></script>
+    <script src="Camera.js"></script>
+    <script src="Body.js"></script>
+    <script src="Simulation.js"></script>
+    <script src="sketch.js"></script>
+    <div id="container">
+        <div id="canvas-container"></div>
+        <div id="panels">
+            <div id="pane-left"></div>
+            <div id="pane-right"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

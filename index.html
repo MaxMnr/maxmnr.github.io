@@ -38,7 +38,7 @@
     <!-- HERO -->
     <section class="hero">
       <div class="hero-sim" aria-hidden="true">
-        <canvas id="hero-canvas"></canvas>
+        <div id="hero-canvas-host" style="width:100%;height:100%"></div>
       </div>
       <div class="hero-vignette"></div>
 
@@ -50,16 +50,12 @@
           high-dimensional scientific data.
         </p>
         <div class="hero-meta">
-          <span>N = 3 · periodic orbit</span>
+          <span>N = 3 · figure-8 orbit</span>
           <span class="sep">/</span>
-          <span id="hero-preset-label">Chenciner–Montgomery · Figure-8 orbit, 2000</span>
+          <span>Chenciner–Montgomery · 2000</span>
           <span class="sep">/</span>
           <span>velocity-Verlet integrator</span>
         </div>
-      </div>
-
-      <div class="orbit-bar" role="tablist" aria-label="Three-body periodic orbits">
-        <div class="orbit-bar-inner" id="orbit-bar"></div>
       </div>
     </section>
 
@@ -129,38 +125,96 @@
     <!--<span>Integrator: velocity-Verlet · G = m = 1</span>-->
   </footer>
 
-  <!-- N-body sim -->
-  <script src="assets/sim.js"></script>
+  <!-- p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.js"></script>
+
+  <!-- N-body simulation classes -->
+  <script src="projects/nbody/utils.js"></script>
+  <script src="projects/nbody/Camera.js"></script>
+  <script src="projects/nbody/Body.js"></script>
+  <script src="projects/nbody/Simulation.js"></script>
+
+  <!-- Hero background sketch (p5 global mode, no interaction, no TweakPane) -->
   <script>
     (function () {
-      const canvas = document.getElementById("hero-canvas");
-      const sim = new window.NBodySim(canvas, { preset: "figure-8" });
-      window.__sim = sim;
+      // figure-8 preset embedded — no JSON fetch needed for the background
+      const HERO_PRESET = {
+        bodies: [
+          { x: -1, y: 0, vx: 0.3471168881, vy: 0.5327249454, mass: 1.0 },
+          { x: 1, y: 0, vx: 0.3471168881, vy: 0.5327249454, mass: 1.0 },
+          { x: 0, y: 0, vx: -0.6942337762, vy: -1.0654498908, mass: 1.0 },
+        ]
+      };
 
-      // Build orbit picker
-      const bar = document.getElementById("orbit-bar");
-      const presetLabel = document.getElementById("hero-preset-label");
-      const order = ["figure-8", "lagrange", "bhh"];
-      for (const key of order) {
-        const p = window.NBODY_PRESETS[key];
-        const btn = document.createElement("button");
-        btn.className = "orbit-btn" + (key === "figure-8" ? " active" : "");
-        btn.textContent = p.label;
-        btn.dataset.key = key;
-        btn.addEventListener("click", () => {
-          sim.load(key);
-          bar.querySelectorAll(".orbit-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          presetLabel.textContent = `${p.label} · ${p.sub}`;
-        });
-        bar.appendChild(btn);
+      let heroCamera, heroSim, heroStars;
+
+      window.setup = function () {
+        const heroContainer = document.querySelector('.hero-sim');
+        const w = heroContainer.offsetWidth || windowWidth;
+        const h = heroContainer.offsetHeight || windowHeight;
+        const cnv = createCanvas(w, h, WEBGL);
+        cnv.parent('hero-canvas-host');
+        // override p5 inline px size so CSS 100%/100% takes effect
+        cnv.style('width', '100%');
+        cnv.style('height', '100%');
+        noStroke();
+
+        heroCamera = new Camera2D(1.8);
+        heroSim = new Simulation(1, 0.001, 0.001);
+        heroSim.loadPreset(HERO_PRESET);
+        heroSim.substeps = 15;   // gentle pace for background
+        heroSim.running = true;
+        heroStars = _heroMakeStars();
+      };
+
+      window.draw = function () {
+        background('#0A0908');
+        // Stars drawn in screen space (WEBGL default: origin at canvas center)
+        // so they don't scroll/zoom with the camera
+        _heroDrawStars(heroStars);
+        push();
+        heroCamera.apply();
+        heroSim.update();
+        heroSim.show();
+        pop();
+      };
+
+      window.windowResized = function () {
+        const heroSimEl = document.querySelector('.hero-sim');
+        const w = heroSimEl.offsetWidth || windowWidth;
+        const h = heroSimEl.offsetHeight || windowHeight;
+        resizeCanvas(w, h);
+        heroStars = _heroMakeStars();
+      };
+
+      function _heroMakeStars() {
+        const stars = [];
+        const hw = width / 2, hh = height / 2;
+        const count = Math.max(300, Math.floor((width * height) / 6000));
+        for (let n = 0; n < count; n++) {
+          stars.push({
+            // screen-space: WEBGL origin is canvas center
+            x: random(-hw, hw),
+            y: random(-hh, hh),
+            r: random(0.5, 2.5),   // pixels
+            a: random(0.15, 0.7),
+            tw: random(TWO_PI),
+          });
+        }
+        return stars;
+      }
+
+      function _heroDrawStars(stars) {
+        noStroke();
+        for (const s of stars) {
+          s.tw += 0.02;
+          const alpha = s.a * (0.7 + 0.3 * sin(s.tw));
+          fill(242, 234, 214, alpha * 255);
+          circle(s.x, s.y, 2 * s.r);
+        }
       }
     })();
   </script>
-
-  <!-- Tweaks -->
-  <script type="text/babel" src="assets/tweaks-panel.jsx"></script>
-  <script type="text/babel" src="assets/tweaks-app.jsx"></script>
 
 </body>
 
